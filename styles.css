@@ -30,9 +30,10 @@ button:hover {
 /* Change input field apperance */
 input{
     margin-right: 16px;
-    padding: 8px;
+    padding: 8px 16px 8px 16px;
     border-radius: 5px;
     border: none;
+    font-size: 16px;
     
 }
 
@@ -41,16 +42,48 @@ ul {
     padding: 0;
     margin: 16px 0px 0px 0px;
     
+    
 }
 
 /* Style each list object */
 ul li {
-    padding: 12px 12px 12px 32px;
+    padding: 8px 8px 8px 16px;
     background-color: lightgray;
     list-style-type: none;
+    vertical-align: middle;
+    font-size: 14px;
+
+    -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
+
+
 
 /* Change backround color for every other list object */
 ul li:nth-child(odd) {
     background-color: white;
+}
+
+/* Apperance for checked item */
+ul li.checked {
+ text-decoration: line-through;
+ color: white;
+ background-color: lightslategrey;
+}
+
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24;
+ padding: 0px 8px 4px 0px;
+ vertical-align: middle;
+}
+
+.material-symbols-outlined.clicked {
+  
+ cursor: pointer;
 }
