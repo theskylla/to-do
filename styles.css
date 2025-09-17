@@ -60,18 +60,11 @@ ul li {
 }
 
 
-
 /* Change backround color for every other list object */
 ul li:nth-child(odd) {
     background-color: white;
 }
 
-/* Apperance for checked item */
-ul li.checked {
- text-decoration: line-through;
- color: white;
- background-color: lightslategrey;
-}
 
 .material-symbols-outlined {
   font-variation-settings:
@@ -83,7 +76,7 @@ ul li.checked {
  vertical-align: middle;
 }
 
-.material-symbols-outlined.clicked {
+.material-symbols-outlined.checked {
+font-variation-settings: line-through;
   
- cursor: pointer;
 }
