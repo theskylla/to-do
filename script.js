@@ -1,107 +1,91 @@
+// Array to hold tasks
+let tasks = [];
 
-//array to hold tasks
-var tasks = [];
+//**måste fixa så allt använder sig av arrays med objects
 
-    function addTask() {
-    const inputText = document.querySelector("input");
+// Add a new task
+function addTask() {
+  const input = document.querySelector("#input");
+  const taskText = input.value.trim();
 
-//capitalize first letter of task, clear input
-    const task = inputText.value.charAt(0).toUpperCase() + inputText.value.slice(1).toLocaleLowerCase();
-    const clearInput = document.querySelector("input").value = "";
-
-//**lägg till kod som begränsar input till max __ tecken, QA-boyfriend tip, +felmeddelande det är för långt?
-
-// Create a "close" button and add it to each list item
-var myTaskList = document.getElementsByTagName("LI");
-var i;
-for (i = 0; i < myTaskList.length; i++) {
-  var span = document.createElement("SPAN");
-  var txt = document.createTextNode("              \u00D7");
-  span.className = "close";
-  span.appendChild(txt);
-  myTaskList[i].appendChild(span);
-}
-
-// Click on a close button to hide the current list item
-var close = document.getElementsByClassName("close");
-var i;
-for (i = 0; i < close.length; i++) {
-  close[i].onclick = function() {
-    var div = this.parentElement;
-    div.style.display = "none";
+  // stop if empty
+  if (!taskText) {
+    const messageBox = document.querySelector("ul"); 
+    const errorMessage = document.createElement("span"); 
+    messageBox.appendChild(errorMessage); 
+    errorMessage.style.color = "red"; 
+    errorMessage.innerText = " *Please enter a task"; 
+    //remove error messaage with click on input field inputText.onclick = function() { errorMessage.remove(); //say if task not added console.log("no task added");
+    return;
   }
+
+  // Capitalize first letter
+  const task = taskText.charAt(0).toUpperCase() + taskText.slice(1).toLowerCase();
+  // clear input
+  input.value = ""; 
+  // limited input to 30 characters in html #QA-skills
+
+
+  // Create <li>
+  const li = document.createElement("li");
+
+  // Checkbox with google material icons
+  const checkbox = document.createElement("span");
+  checkbox.className = "material-symbols-outlined checkbox";
+  checkbox.textContent = "check_box_outline_blank";
+
+  // Close button with html code
+  const trash = document.createElement("span");
+  trash.className = "close";
+  trash.innerHTML = "&#x1F5D1";
+
+  // Assemble item
+  li.appendChild(checkbox);
+  li.append(" " + task + "  ");
+  li.appendChild(trash);
+
+  document.querySelector("#taskList").appendChild(li);
+
+  // Add to array + log
+  tasks.push(task);
+  console.log("Added:", task);
+  console.log("All tasks", tasks);
 }
 
-//function to toggle between checked and unchecked box
+// Event delegation for checkboxes and close buttons
+document.getElementById("taskList").addEventListener("click", function(e) {
+  if (e.target.classList.contains("checkbox")) {
+    toggleBox(e.target);
+  }
+  if (e.target.classList.contains("close")) {
+    const li = e.target.parentElement;
+    
+    // adjust counter if deleting a completed task
+    if (li.querySelector(".checkbox").textContent.trim() === "check_box") {
+      const completedTasks = document.getElementById("completedTasks");
+      let count = parseInt(completedTasks.textContent);
+      completedTasks.textContent = (count - 1) + " completed";
+    }
+    li.remove();
+  }
+});
 
-//**fixa så både checkbox och kryss använder samma metod */
-
-
+// Toggle checkbox
 function toggleBox(el) {
+  const completedTasks = document.getElementById("completedTasks");
+  let count = parseInt(completedTasks.textContent);
+
   if (el.textContent.trim() === "check_box_outline_blank") {
     el.textContent = "check_box";
-    
-    //add to completed tasks count
-    const completedTasks = document.getElementById("completedTasks");
-    let count = parseInt(completedTasks.textContent);
-    count++;
-    completedTasks.textContent = count + " completed";
-
-    //line to cross out completed task
     el.parentElement.style.textDecoration = "line-through";
-    console.log("task completed");
-  
-  } else if (el.textContent.trim() === "check_box") {
+    completedTasks.textContent = (count + 1) + " completed";
+    console.log("Task completed:", el.parentElement.textContent.trim());
+
+  } else {
+
     el.textContent = "check_box_outline_blank";
-    //remove from completed tasks count
-    const completedTasks = document.getElementById("completedTasks");
-    let count = parseInt(completedTasks.textContent);
-    count--;
-    completedTasks.textContent = count + " completed";
-    //normal text for uncompleted task
     el.parentElement.style.textDecoration = "none";
-    console.log("task uncompleted");
+    completedTasks.textContent = (count - 1) + " completed";
+    console.log("Task uncompleted:", el.parentElement.textContent.trim());
   }
 }
-
-//select ul and create li element
-    const taskList = document.querySelector("ul");
-    const listItem = document.createElement("li");
-    const itemLabel = document.createElement("span");
-
-//if input is filled add task to array, if not, display error messagex
-    if (task) {    
-       taskList.appendChild(listItem); 
-       listItem.innerText = task;
-       itemLabel.className = "material-symbols-outlined";
-       itemLabel.innerText = "check_box_outline_blank";
-       itemLabel.setAttribute("onclick", "toggleBox(this)");
-       listItem.prepend(itemLabel); 
-     
-       
-       console.log("added " + task);
-       tasks.push(task);
-
-//check tasks array       
-       console.log(tasks);
-       
-
-    } else {
-
-  //display error message if input is empty
-  const messageBox = document.querySelector("ul");
-  const errorMessage = document.createElement("span");
-  messageBox.appendChild(errorMessage);
-  errorMessage.style.color = "red";
-    errorMessage.innerText = " *Please enter a task";
-
-  //remove error messaage with click on input field
-  inputText.onclick = function() {
-  errorMessage.remove();
-    
- //say if task not added
-  console.log("no task added");     
-}
-}
-    }
-

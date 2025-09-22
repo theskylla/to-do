@@ -42,7 +42,6 @@ ul {
     padding: 0;
     margin: 16px 0px 0px 0px;
     
-    
 }
 
 /* Style each list object */
@@ -66,6 +65,7 @@ ul li:nth-child(odd) {
 }
 
 
+
 .material-symbols-outlined {
   font-variation-settings:
   'FILL' 0,
@@ -76,8 +76,5 @@ ul li:nth-child(odd) {
  vertical-align: middle;
 }
 
-.material-symbols-outlined.checked {
-font-variation-settings: line-through;
-  
-}
+
 
