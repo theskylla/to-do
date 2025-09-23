@@ -4,10 +4,17 @@ let completedTasks = [];
 
 //**måste fixa så allt använder sig av arrays med objects
 
+
 // Add a new task
 function addTask() {
   const input = document.querySelector("#input");
   const taskText = input.value.trim();
+
+  // Capitalize first letter
+  let task = taskText.charAt(0).toUpperCase() + taskText.slice(1).toLowerCase();
+  // clear input
+  input.value = ""; 
+  // limited input to 30 characters in html #QA-skills
 
   // stop if empty
   if (!taskText) {
@@ -20,12 +27,7 @@ function addTask() {
     return;
   }
 
-  // Capitalize first letter
-  const task = taskText.charAt(0).toUpperCase() + taskText.slice(1).toLowerCase();
-  // clear input
-  input.value = ""; 
-  // limited input to 30 characters in html #QA-skills
-
+  
 
   // Create list item
   const li = document.createElement("li");
@@ -50,14 +52,7 @@ function addTask() {
   // Add to array + log added task, all tasks in list and completed tasks
   tasks.push(task);
   console.log("Added:", task);
-  console.log("All tasks in list:", tasks);
-  console.log("Completed tasks:", completedTasks);
-}
-
-function removeTask {
-//Code for removing a task, not currently used
-  console.log("Task removed:", task);
-  console.log("All tasks in list:", tasks);
+  console.log("Uncompleted tasks", tasks);
   console.log("Completed tasks:", completedTasks);
 }
 
@@ -66,35 +61,72 @@ document.getElementById("taskList").addEventListener("click", function(e) {
   if (e.target.classList.contains("checkbox")) {
     toggleBox(e.target);
   }
+
   if (e.target.classList.contains("close")) {
+
     const li = e.target.parentElement;
-    
-    // adjust counter if deleting a completed task
-    if (li.querySelector(".checkbox").textContent.trim() === "check_box") {
-      const completedTasks = document.getElementById("completedTasks");
-      let count = parseInt(completedTasks.textContent);
-      completedTasks.textContent = (count - 1) + " completed";
-    }
+    const task= li.textContent.replace("check_box", "").replace("check_box_outline_blank", "").replace("🗑", "").trim();
+    removeTask(task);
     li.remove();
   }
+  
 });
 
 // Toggle checkbox
 function toggleBox(el) {
-  const completedTasks = document.getElementById("completedTasks");
-  let count = parseInt(completedTasks.textContent);
 
   if (el.textContent.trim() === "check_box_outline_blank") {
+    const taskText = el.parentElement.textContent.replace("check_box", "").replace("check_box_outline_blank", "").replace("_outline_blank", "").replace("🗑", "").trim();
     el.textContent = "check_box";
     el.parentElement.style.textDecoration = "line-through";
-    completedTasks.textContent = (count + 1) + " completed";
-    console.log("Task completed:", el.parentElement.textContent.trim());
+
+    tasks = tasks.filter(t => t !== taskText);
+    completedTasks.push(taskText);
+
+    let showCompletedTasks = document.getElementById("showCompletedTasks");
+     showCompletedTasks.textContent = completedTasks.length + " completed";
+
+    console.log("Marked as completed:", taskText);
+    console.log("Uncompleted tasks:", tasks);
+
+    console.log("Completed tasks:", taskText);
+
 
   } else {
 
     el.textContent = "check_box_outline_blank";
     el.parentElement.style.textDecoration = "none";
-    completedTasks.textContent = (count - 1) + " completed";
-    console.log("Task uncompleted:", el.parentElement.textContent.trim());
+
+    completedTasks = completedTasks.filter(t => t !== taskText);
+    tasks.push(taskText);
+
+    let showCompletedTasks = document.getElementById("showCompletedTasks");
+    showCompletedTasks.textContent = completedTasks.length + " completed";
+
+    let indexToAdd = completedTasks.indexOf(taskText);
+    if (indexToAdd !== +1) {
+      completedTasks.splice(indexToAdd, 1);
+    }
+
+    console.log("Marked as completed:", taskText);
+    console.log("All tasks in list:", tasks);
+    console.log("Marked as uncompleted", taskText);
+
   }
+}
+
+function removeTask(taskText) {
+tasks = tasks.filter(t => t !== taskText);
+completedTasks = completedTasks.filter(t => t !== taskText);
+let indexToRemove = completedTasks.indexOf(taskText);
+if (indexToRemove !== -1) {
+  completedTasks.splice(indexToRemove, 1);
+}
+let showCompletedTasks = document.getElementById("showCompletedTasks");
+showCompletedTasks.textContent = completedTasks.length + " completed";
+
+//Code for removing a task, not currently used
+  console.log("Task removed:", taskText);
+  console.log("Uncompleted tasks:", tasks);
+  console.log("Completed tasks:", completedTasks);
 }
