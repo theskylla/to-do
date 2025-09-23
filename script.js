@@ -2,8 +2,6 @@
 let tasks = [];
 let completedTasks = [];
 
-//**måste fixa så allt använder sig av arrays med objects
-
 
 // Add a new task
 function addTask() {
@@ -23,11 +21,8 @@ function addTask() {
     messageBox.appendChild(errorMessage); 
     errorMessage.style.color = "red"; 
     errorMessage.innerText = " *Please enter a task"; 
-    //remove error messaage with click on input field inputText.onclick = function() { errorMessage.remove(); //say if task not added console.log("no task added");
     return;
   }
-
-  
 
   // Create list item
   const li = document.createElement("li");
@@ -72,6 +67,10 @@ document.getElementById("taskList").addEventListener("click", function(e) {
   
 });
 
+//**Fixa så man kan ändra fram och tillbaka mellan unchecked och checked */
+
+//**Fixa så trash-ikonen inte får någon "line-througt" */
+
 // Toggle checkbox
 function toggleBox(el) {
 
@@ -88,7 +87,6 @@ function toggleBox(el) {
 
     console.log("Marked as completed:", taskText);
     console.log("Uncompleted tasks:", tasks);
-
     console.log("Completed tasks:", taskText);
 
 
@@ -113,6 +111,7 @@ function toggleBox(el) {
     console.log("Marked as uncompleted", taskText);
 
   }
+  
 }
 
 function removeTask(taskText) {
