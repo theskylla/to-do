@@ -1,5 +1,6 @@
 // Array to hold tasks
 let tasks = [];
+let completedTasks = [];
 
 //**måste fixa så allt använder sig av arrays med objects
 
@@ -26,7 +27,7 @@ function addTask() {
   // limited input to 30 characters in html #QA-skills
 
 
-  // Create <li>
+  // Create list item
   const li = document.createElement("li");
 
   // Checkbox with google material icons
@@ -34,22 +35,30 @@ function addTask() {
   checkbox.className = "material-symbols-outlined checkbox";
   checkbox.textContent = "check_box_outline_blank";
 
-  // Close button with html code
+  // Close button with html code for trash can
   const trash = document.createElement("span");
   trash.className = "close";
   trash.innerHTML = "&#x1F5D1";
 
-  // Assemble item
+  // Put everything together
   li.appendChild(checkbox);
   li.append(" " + task + "  ");
   li.appendChild(trash);
 
   document.querySelector("#taskList").appendChild(li);
 
-  // Add to array + log
+  // Add to array + log added task, all tasks in list and completed tasks
   tasks.push(task);
   console.log("Added:", task);
-  console.log("All tasks", tasks);
+  console.log("All tasks in list:", tasks);
+  console.log("Completed tasks:", completedTasks);
+}
+
+function removeTask {
+//Code for removing a task, not currently used
+  console.log("Task removed:", task);
+  console.log("All tasks in list:", tasks);
+  console.log("Completed tasks:", completedTasks);
 }
 
 // Event delegation for checkboxes and close buttons
