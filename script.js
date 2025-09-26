@@ -2,9 +2,6 @@
 let tasks = [];
 let completedTasks = [];
 
-
-//**kvar att fixa: tomma strings när man växlar i toggle
-
 // Add a new task
 function addTask() {
   const input = document.querySelector("#input");
@@ -76,51 +73,50 @@ document.getElementById("taskList").addEventListener("click", function(e) {
   
 });
 
-// Toggle checkbox
+// Toggle checkbox - gjord enklare så allt håller sig i rätt arrays
 function toggleBox(el) {
+  const li = el.parentElement;
+  const textLabel = li.querySelector(".text-label");
+  const taskText = textLabel.textContent;
 
   if (el.textContent.trim() === "check_box_outline_blank") {
-    const taskText = el.parentElement.textContent.replace("check_box", "").replace("check_box_outline_blank", "").replace("_outline_blank", "").replace("🗑", "").trim();
+    // Mark as completed
     el.textContent = "check_box";
-    const textLabel = el.parentElement.querySelector(".text-label");
     textLabel.style.textDecoration = "line-through";
 
+    // Remove from uncompleted somewhere already
     tasks = tasks.filter(t => t !== taskText);
-    completedTasks.push(taskText);
 
-    let showCompletedTasks = document.getElementById("showCompletedTasks");
-     showCompletedTasks.textContent = completedTasks.length + " completed";
-
-    console.log("Marked as completed:", taskText);
-    console.log("Uncompleted tasks:", tasks);
-    console.log("Completed tasks:", taskText);
-
-
-  } else {
-
-    el.textContent = "check_box_outline_blank";
-    const textLabel = el.parentElement.querySelector(".text-label");
-    const taskText = input.value.trim();
-    textLabel.style.textDecoration = "none";
-
-    completedTasks = completedTasks.filter(t => t !== taskText);
-    tasks.push(taskText);
-
-    let showCompletedTasks = document.getElementById("showCompletedTasks");
-    showCompletedTasks.textContent = completedTasks.length + " completed";
-
-    let indexToAdd = completedTasks.indexOf(taskText);
-    if (indexToAdd !== +1) {
-      completedTasks.splice(indexToAdd, 1);
+    // Add to completed if not already there
+    if (!completedTasks.includes(taskText)) {
+      completedTasks.push(taskText);
     }
 
     console.log("Marked as completed:", taskText);
-    console.log("All tasks in list:", tasks);
-    console.log("Marked as uncompleted", taskText);
+  } else {
+    // Mark as uncompleted
+    el.textContent = "check_box_outline_blank";
+    textLabel.style.textDecoration = "none";
 
+    // Remove from completed if it exists
+    completedTasks = completedTasks.filter(t => t !== taskText);
+
+    // Add back to uncompleted if not already there
+    if (!tasks.includes(taskText)) {
+      tasks.push(taskText);
+    }
+
+    console.log("Marked as uncompleted:", taskText);
   }
-  
+
+  // Update completed tasks counter
+  let showCompletedTasks = document.getElementById("showCompletedTasks");
+  showCompletedTasks.textContent = completedTasks.length + " completed";
+
+  console.log("Uncompleted tasks:", tasks);
+  console.log("Completed tasks:", completedTasks);
 }
+
 
 function removeTask(taskText) {
 tasks = tasks.filter(t => t !== taskText);
