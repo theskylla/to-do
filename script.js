@@ -3,6 +3,8 @@ let tasks = [];
 let completedTasks = [];
 
 
+//**kvar att fixa: tomma strings när man växlar i toggle
+
 // Add a new task
 function addTask() {
   const input = document.querySelector("#input");
@@ -32,20 +34,28 @@ function addTask() {
   checkbox.className = "material-symbols-outlined checkbox";
   checkbox.textContent = "check_box_outline_blank";
 
+  //task text
+  const textLabel = document.createElement("span");
+  textLabel.className = "text-label";
+  textLabel.textContent = task;
+
+
   // Close button with html code for trash can
   const trash = document.createElement("span");
   trash.className = "close";
   trash.innerHTML = "&#x1F5D1";
 
+
   // Put everything together
   li.appendChild(checkbox);
-  li.append(" " + task + "  ");
+  li.appendChild(textLabel);
   li.appendChild(trash);
 
   document.querySelector("#taskList").appendChild(li);
 
   // Add to array + log added task, all tasks in list and completed tasks
   tasks.push(task);
+
   console.log("Added:", task);
   console.log("Uncompleted tasks", tasks);
   console.log("Completed tasks:", completedTasks);
@@ -58,7 +68,6 @@ document.getElementById("taskList").addEventListener("click", function(e) {
   }
 
   if (e.target.classList.contains("close")) {
-
     const li = e.target.parentElement;
     const task= li.textContent.replace("check_box", "").replace("check_box_outline_blank", "").replace("🗑", "").trim();
     removeTask(task);
@@ -67,17 +76,14 @@ document.getElementById("taskList").addEventListener("click", function(e) {
   
 });
 
-//**Fixa så man kan ändra fram och tillbaka mellan unchecked och checked */
-
-//**Fixa så trash-ikonen inte får någon "line-througt" */
-
 // Toggle checkbox
 function toggleBox(el) {
 
   if (el.textContent.trim() === "check_box_outline_blank") {
     const taskText = el.parentElement.textContent.replace("check_box", "").replace("check_box_outline_blank", "").replace("_outline_blank", "").replace("🗑", "").trim();
     el.textContent = "check_box";
-    el.parentElement.style.textDecoration = "line-through";
+    const textLabel = el.parentElement.querySelector(".text-label");
+    textLabel.style.textDecoration = "line-through";
 
     tasks = tasks.filter(t => t !== taskText);
     completedTasks.push(taskText);
@@ -93,7 +99,9 @@ function toggleBox(el) {
   } else {
 
     el.textContent = "check_box_outline_blank";
-    el.parentElement.style.textDecoration = "none";
+    const textLabel = el.parentElement.querySelector(".text-label");
+    const taskText = input.value.trim();
+    textLabel.style.textDecoration = "none";
 
     completedTasks = completedTasks.filter(t => t !== taskText);
     tasks.push(taskText);
@@ -117,10 +125,7 @@ function toggleBox(el) {
 function removeTask(taskText) {
 tasks = tasks.filter(t => t !== taskText);
 completedTasks = completedTasks.filter(t => t !== taskText);
-let indexToRemove = completedTasks.indexOf(taskText);
-if (indexToRemove !== -1) {
-  completedTasks.splice(indexToRemove, 1);
-}
+
 let showCompletedTasks = document.getElementById("showCompletedTasks");
 showCompletedTasks.textContent = completedTasks.length + " completed";
 
