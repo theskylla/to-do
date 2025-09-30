@@ -13,15 +13,32 @@ function addTask() {
   input.value = ""; 
   // limited input to 30 characters in html #QA-skills
 
-  // stop if empty
+  
+
+  // Create a single error message if empty input    
   if (!taskText) {
+    let existingError = document.querySelector(".error-message");
+    if (!existingError){ 
     const messageBox = document.querySelector("ul"); 
     const errorMessage = document.createElement("span"); 
+
+    errorMessage.className = "error-message";
     messageBox.appendChild(errorMessage); 
     errorMessage.style.color = "red"; 
     errorMessage.innerText = " *Please enter a task"; 
+    }
+    //Remove error message when user types into input
+    const input = document.querySelector("#input");
+    input.addEventListener("input", function() {
+      const error = document.querySelector(".error-message");
+      if (error) {
+        error.remove();
+      }
+    });
     return;
-  }
+  } 
+  
+  
 
   // Create list item
   const li = document.createElement("li");
