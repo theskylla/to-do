@@ -46,7 +46,9 @@ ul {
 
 /* Style each list object */
 ul li {
-    padding: 8px 8px 8px 16px;
+    position: relative;
+    align-self: center;
+    padding: 12px 12px 8px 16px;
     background-color: lightgray;
     list-style-type: none;
     vertical-align: middle;
@@ -63,6 +65,18 @@ ul li {
 ul li:nth-child(odd) {
     background-color: white;
 }
+
+.close {
+position: absolute;
+right: 0;
+top: 0;
+padding: 16px 16px 12px 16px;
+}
+
+.close:hover {
+    color: red;
+}
+
 
 
 /* For the checkbox icons */

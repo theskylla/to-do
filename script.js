@@ -38,8 +38,6 @@ function addTask() {
     return;
   } 
   
-  
-
   // Create list item
   const li = document.createElement("li");
 
@@ -83,8 +81,10 @@ document.getElementById("taskList").addEventListener("click", function(e) {
 
   if (e.target.classList.contains("close")) {
     const li = e.target.parentElement;
-    const task= li.textContent.replace("check_box", "").replace("check_box_outline_blank", "").replace("🗑", "").trim();
-    removeTask(task);
+    const taskLabel = li.querySelector(".text-label");
+    const taskText = taskLabel.textContent;
+
+    removeTask(taskText);
     li.remove();
   }
   
@@ -101,7 +101,7 @@ function toggleBox(el) {
     el.textContent = "check_box";
     textLabel.style.textDecoration = "line-through";
 
-    // Remove from uncompleted somewhere already
+    // Remove from uncompleted if somewhere already
     tasks = tasks.filter(t => t !== taskText);
 
     // Add to completed if not already there
